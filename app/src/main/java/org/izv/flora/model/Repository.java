@@ -110,15 +110,16 @@ public class Repository {
     }
 
     public void saveImagen(Intent intent, Imagen imagen) {
-        copyData(intent, imagen.nombre);
-        File file = new File(context.getExternalFilesDir(null), imagen.nombre);
+        String nombre = "xyzyx.abc";
+        copyData(intent, nombre);
+        File file = new File(context.getExternalFilesDir(null), nombre);
         Log.v("xyzyx", file.getAbsolutePath());
         subirImagen(file, imagen);
     }
 
     private void subirImagen(File file, Imagen imagen) {
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("photo", file.getName(), requestFile);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("photo", imagen.nombre, requestFile);
         Call<Long> call = floraClient.subirImagen(body, imagen.idflora, imagen.descripcion);
         call.enqueue(new Callback<Long>() {
             @Override
